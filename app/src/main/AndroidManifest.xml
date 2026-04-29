@@ -29,8 +29,9 @@
     <!-- Разрешение на запуск после перезагрузки устройства -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-    <!-- Разрешение на создание ярлыков (устаревшее, но может работать на старых версиях Android) -->
-    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <!-- Разрешение на получение списка установленных приложений -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
 
     <application
         android:allowBackup="true"
@@ -40,7 +41,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+        android:theme="@style/Theme.VivoIQOO144FPSUnlocker"
         tools:targetApi="31">
 
         <activity

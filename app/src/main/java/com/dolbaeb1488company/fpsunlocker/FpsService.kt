@@ -1,62 +1,101 @@
 package com.dolbaeb1488company.fpsunlocker
 
-import android.app.Notification
-import android.app.Service
+import android.app.*
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
-import android.os.Handler
 import android.os.IBinder
-import android.os.Looper
 import android.provider.Settings
 import android.util.Log
+import androidx.core.app.NotificationCompat
 
 class FpsService : Service() {
-    override fun onBind(intent: Intent?): IBinder? = null
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val channelId = "FpsServiceChannel"
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = android.app.NotificationChannel(channelId, "FPS Unlocker Service", android.app.NotificationManager.IMPORTANCE_LOW)
-            getSystemService(android.app.NotificationManager::class.java).createNotificationChannel(channel)
-            val notification = Notification.Builder(this, channelId)
-                .setContentTitle("FPS Unlocker")
-                .setContentText("Maintaining 144 FPS")
-                .setSmallIcon(android.R.drawable.stat_sys_data_bluetooth)
-                .build()
-            startForeground(1, notification)
-        } else {
-            val notification = Notification.Builder(this)
-                .setContentTitle("FPS Unlocker")
-                .setContentText("Maintaining 144 FPS")
-                .setSmallIcon(android.R.drawable.stat_sys_data_bluetooth)
-                .build()
-            startForeground(1, notification)
-        }
+    private val CHANNEL_ID = "fps_unlocker_channel"
+    private val NOTIFICATION_ID = 1
+    
+    companion object {
+        const val ACTION_TOGGLE_FPS = "com.dolbaeb1488company.fpsunlocker.TOGGLE_FPS"
+    }
 
-        val prefs = getSharedPreferences("FpsPrefs", MODE_PRIVATE)
-        val handler = Handler(Looper.getMainLooper())
-        val refreshRunnable = object : Runnable {
-            override fun run() {
-                if (prefs.getBoolean("fps_enabled", false)) {
-                    try {
-                        Settings.System.putString(contentResolver, "gamecube_frame_interpolation_for_sr", "1:1::72:144")
-                        Log.d("FPSUnlocker", "Refreshed setting to '1:1::72:144'")
-                    } catch (e: SecurityException) {
-                        Log.e("FPSUnlocker", "SecurityException: ${e.message}", e)
-                    } catch (e: Exception) {
-                        Log.e("FPSUnlocker", "err: ${e.message}", e)
-                    }
-                }
-                handler.postDelayed(this, 60000)
+    private val receiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.action == ACTION_TOGGLE_FPS) {
+                toggleFps()
             }
         }
-        handler.post(refreshRunnable)
+    }
 
+    override fun onCreate() {
+        super.onCreate()
+        createNotificationChannel()
+        registerReceiver(receiver, IntentFilter(ACTION_TOGGLE_FPS))
+        startForeground(NOTIFICATION_ID, buildNotification())
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         return START_STICKY
     }
 
     override fun onDestroy() {
+        unregisterReceiver(receiver)
         super.onDestroy()
-        Handler(Looper.getMainLooper()).removeCallbacksAndMessages(null)
+    }
+
+    override fun onBind(intent: Intent?): IBinder? = null
+
+    private fun toggleFps() {
+        try {
+            val currentValue = Settings.System.getString(contentResolver, "gamecube_frame_interpolation_for_sr")
+            val isChecked = currentValue != "1:1::72:144"
+            Settings.System.putString(contentResolver, "gamecube_frame_interpolation_for_sr", if (isChecked) "1:1::72:144" else "0:-1:0:0:0")
+            
+            // Notify UI if it's running
+            sendBroadcast(Intent("com.dolbaeb1488company.fpsunlocker.UPDATE_UI").putExtra("isChecked", isChecked))
+            
+            // Update notification
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.notify(NOTIFICATION_ID, buildNotification())
+        } catch (e: Exception) {
+            Log.e("FpsService", "Error toggling FPS", e)
+        }
+    }
+
+    private fun buildNotification(): Notification {
+        val currentValue = Settings.System.getString(contentResolver, "gamecube_frame_interpolation_for_sr")
+        val isEnabled = currentValue == "1:1::72:144"
+        val statusText = if (isEnabled) getString(R.string.on) else getString(R.string.off)
+        
+        val intent = Intent(this, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
+        val toggleIntent = Intent(ACTION_TOGGLE_FPS)
+        val togglePendingIntent = PendingIntent.getBroadcast(this, 0, toggleIntent, PendingIntent.FLAG_IMMUTABLE)
+
+        val actionText = if (isEnabled) getString(R.string.turn_off) else getString(R.string.turn_on)
+
+        return NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentTitle(getString(R.string.notification_title))
+            .setContentText(getString(R.string.notification_content, statusText))
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setContentIntent(pendingIntent)
+            .addAction(android.R.drawable.ic_menu_manage, actionText, togglePendingIntent)
+            .setOngoing(true)
+            .setSilent(true)
+            .build()
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val serviceChannel = NotificationChannel(
+                CHANNEL_ID,
+                "FPS Unlocker Service Channel",
+                NotificationManager.IMPORTANCE_LOW
+            )
+            val manager = getSystemService(NotificationManager::class.java)
+            manager.createNotificationChannel(serviceChannel)
+        }
     }
 }

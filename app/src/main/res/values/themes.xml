@@ -3,14 +3,24 @@
 
     <style name="Theme.VivoIQOO144FPSUnlocker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Основные цвета бренда -->
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorPrimaryVariant">@color/black</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimary">#34D399</item>
+        <item name="colorPrimaryVariant">#111827</item>
+        <item name="colorOnPrimary">#111827</item>
         <!-- Вторичные цвета бренда -->
-        <item name="colorSecondary">@color/black</item>
-        <item name="colorSecondaryVariant">@color/black</item>
-        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondary">#34D399</item>
+        <item name="colorSecondaryVariant">#34D399</item>
+        <item name="colorOnSecondary">#111827</item>
         <!-- Цвет строки состояния -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+
+        <!-- Dialog theme to ensure dark background and correct text colors -->
+        <item name="alertDialogTheme">@style/CustomAlertDialog</item>
+    </style>
+
+    <style name="CustomAlertDialog" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="android:background">#1F2937</item>
+        <item name="android:textColor">#F9FAFB</item>
+        <item name="android:textColorPrimary">#F9FAFB</item>
+        <item name="colorAccent">#34D399</item>
     </style>
 </resources>

@@ -1,3 +1,29 @@
 <resources>
-    <string name="app_name">Vivo-IQOO 144 FPS Unlocker</string>
+    <string name="app_name">OriginOS Tweaks</string>
+    <string name="unlocker">Unlocker</string>
+    <string name="tweaks">Tweaks</string>
+    <string name="fps_unlock_title">144 FPS UNLOCK</string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
+    <string name="fps_label">fps: %s</string>
+    <string name="fingerprint_icons">Fingerprint Icons</string>
+    <string name="music_widget_apps">Music Widget Apps</string>
+    <string name="add_icon">Add Icon</string>
+    <string name="edit_icon">Edit Icon</string>
+    <string name="delete_icon_title">Delete Icon?</string>
+    <string name="delete_icon_msg">Remove this icon from fingerprint customization?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="select_music_apps">Select Music Apps</string>
+    <string name="add_selected">Add Selected</string>
+    <string name="add_apps">Add Apps</string>
+    <string name="permission_denied">Permission denied (WRITE_SETTINGS)?</string>
+    <string name="notification_title">OriginOS Tweaks Active</string>
+    <string name="notification_content">144 FPS Status: %s</string>
+    <string name="turn_on">Turn ON</string>
+    <string name="turn_off">Turn OFF</string>
+    <string name="setup_guide_title">Important Setup</string>
+    <string name="setup_guide_msg">For stable background operation, please:\n1. Disable battery optimization (Battery Optimization -> Don\'t optimize).\n2. Allow autostart and background activity in app settings.</string>
+    <string name="ok">OK</string>
 </resources>

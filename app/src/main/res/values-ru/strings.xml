@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">OriginOS Tweaks</string>
+    <string name="unlocker">Разблокировщик</string>
+    <string name="tweaks">Настройки</string>
+    <string name="fps_unlock_title">РАЗБЛОКИРОВКА 144 FPS</string>
+    <string name="on">ВКЛ</string>
+    <string name="off">ВЫКЛ</string>
+    <string name="fps_label">кадров: %s</string>
+    <string name="fingerprint_icons">Иконки отпечатка</string>
+    <string name="music_widget_apps">Приложения муз. виджета</string>
+    <string name="add_icon">Добавить иконку</string>
+    <string name="edit_icon">Изменить иконку</string>
+    <string name="delete_icon_title">Удалить иконку?</string>
+    <string name="delete_icon_msg">Удалить эту иконку из настроек отпечатка?</string>
+    <string name="delete">Удалить</string>
+    <string name="cancel">Отмена</string>
+    <string name="save">Сохранить</string>
+    <string name="select_music_apps">Выберите приложения</string>
+    <string name="add_selected">Добавить выбранные</string>
+    <string name="add_apps">Добавить приложения</string>
+    <string name="permission_denied">Нет прав (WRITE_SETTINGS)?</string>
+    <string name="notification_title">OriginOS Tweaks Активен</string>
+    <string name="notification_content">Статус 144 FPS: %s</string>
+    <string name="turn_on">Включить</string>
+    <string name="turn_off">Выключить</string>
+    <string name="setup_guide_title">Важная настройка</string>
+    <string name="setup_guide_msg">Для стабильной работы в фоне, пожалуйста:\n1. Отключите ограничение потребления (Battery Optimization -> Don\'t optimize).\n2. Разрешите автозапуск и работу в фоне в настройках приложения.</string>
+    <string name="ok">Понятно</string>
+</resources>
