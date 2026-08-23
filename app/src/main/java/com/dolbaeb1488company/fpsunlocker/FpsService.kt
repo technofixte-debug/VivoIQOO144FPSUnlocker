@@ -65,7 +65,7 @@ class FpsService : Service() {
 
     private fun buildNotification(): Notification {
         val currentValue = Settings.System.getString(contentResolver, "peak_refresh_rate")
-        val isEnabled = currentValue == "1"
+        val isEnabled = currentValue == "2"
         val statusText = if (isEnabled) getString(R.string.on) else getString(R.string.off)
         
         val intent = Intent(this, MainActivity::class.java)
